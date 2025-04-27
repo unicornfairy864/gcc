@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficshl Dashboard</title>
+</head>
+<body>
+    <div id="port">Port: <div><input type="text" value="{{ port }}" placeholder="Set port to connect with flask server" /></div></div>
+    <div id="left-board">
+        <div id="spd-level"></div>
+        <div class="spd">2800</div>
+        <div class="spd">2400</div>
+        <div class="spd">2000</div>
+        <div class="spd">1600</div>
+        <div class="spd">1200</div>
+        <div class="spd">800</div>
+        <div class="spd">400</div>
+        <div class="spd">0</div>
+    </div>
+    <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
+    <div id="dashboard-left" class="circle">
+        <div class="pointer" id="pointer-left"></div>
+        <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
+        <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
+        <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
+        <div class="number" style="transform: rotate(150deg);"><div>90</div></div>
+        <div class="number" style="transform: rotate(210deg);"><div>120</div></div>
+    </div>
+    <div id="dashboard-right" class="circle">
+        <div class="pointer" id="pointer-right"></div>
+        <div id="rdata">600</div>
+        <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
+        <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
+        <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
+        <div class="number" style="transform: rotate(150deg);"><div>90</div></div>
+        <div class="number" style="transform: rotate(210deg);"><div>120</div></div>
+    </div>
+    <ul id="speedDashboard">
+        <li class="square">120</li>
+        <li class="square"></li>
+        <li class="square"></li>
+        <li class="square"></li>
+        <li class="square"></li>
+        <li class="square"></li>
+        <li class="square">E</li>
+        <li class="square"></li>
+        <li class="square"></li>
+        <li class="square"></li>
+    </ul>
+    <ul id="msgBoard">
+        <div id="powerIndicator">
+            <div class="stat">Anemo</div>
+            <div class="stat">Hydro</div>
+            <div class="stat">Electro</div>
+        </div>
+        <li class="msg">jeangunnhildr</li>
+        <li class="msg">Anemo Quality low</li>
+        <li class="msg">消息3</li>
+    </ul>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            color: white;
+            background-color: black;
+        }
+
+        #port {
+            position: absolute;
+            background-color: #ffffff;
+            color: black;
+            top: 3vh;
+            left: 3vw;
+            padding: 1vw;
+            font-family:'Times New Roman', Times, serif;
+            border-radius: 2px;
+            font-size: 2vw;
+        }
+
+        #port > div {
+            display: inline-block;
+            font-size: 2vw;
+            width: 6vw;
+            height: 1vw;
+            padding: 0 1vw;
+            border: none;
+        }
+
+        #port > div > input {
+            display: inline-block;
+            font-family:'Times New Roman', Times, serif;
+            font-size: 2vw;
+            width: 100%;
+            border: none;
+            text-align: center;
+            z-index: 5;
+            outline: none;
+            color: #707070;
+            transition: color 0.2s;
+        }
+
+        #port > div > input:focus {
+            color: black;
+        }
+
+        #port > div::after {
+            content: '';
+            position: absolute;
+            top: calc(100% - 1vw);
+            right: 1vw;
+            width: 8vw;
+            height: 0;
+            z-index: 0;
+            border-radius: 0.3vw;
+            border-bottom: #3f3f3f 0.15vw solid;
+            z-index: 0;
+        }
+
+        #left-board {
+            position: absolute;
+            width: 6vw;
+            top: 10vh;
+            padding-left: 5vw;
+            left: 18vw;
+        }
+
+        #left-board > #spd-level {
+            position: absolute;
+            display: inline-block;
+            content: '';
+            border-left: 0.6vw black solid;
+            height: 70%;
+            margin-left: -2vw;
+        }
+
+        #left-board::before {
+            position: absolute;
+            display: inline-block;
+            content: '';
+            border-left: 0.6vw orange solid;
+            height: 100%;
+            margin-left: -2vw;
+        }
+
+        #left-board > .spd {
+            width: auto;
+            font-size: 2.5vw;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            line-height: 3vw;
+        }
+
+
+        #light {
+            position: absolute;
+            width: 7vw;
+            height: 7vw;
+            top: 2vh;
+            left: 35vw;
+            border-radius: 50%;
+            background-color: black;
+            border: 0.3vw solid white;
+        }
+
+        .circle {
+            width: 20vw;
+            height: 20vw;
+            position: absolute;
+            top: 10vh;
+            transition: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .circle::after {
+            content: '';
+            display: block;
+            width: calc(19vw);
+            height: calc(19vw);
+            background-color: black;
+            margin: 0.5vw;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        #dashboard-left {
+            left: 42vw;
+            transition: translate(-50%, -50%);
+        }
+
+        #dashboard-left::before {
+            content: '90km/h';
+            position: absolute;
+            display: block;
+            width: 6vw;
+            height: 6vw;
+            color: rgb(255, 255, 255, 0.9);
+            background-color: rgba(138, 43, 226, 0.9);
+            z-index: 4;
+            border-radius: 50%;
+            padding: 1vw;
+            margin: 6vw;
+            font-size: 1.5vw;
+            line-height: 6vw;
+            text-align: center;
+        }
+
+        #dashboard-right {
+            right: 10vw;
+        }
+
+        .pointer {
+            position: absolute;
+            width: 10vw;
+            height: 0.5vw;
+            background-color: white;
+            border-radius: 30%;
+            top: 9.75vw;
+            left: 0;
+            transform-origin: 10vw center;
+            transform: rotate(0.10turn);
+            z-index: 3;
+            margin-bottom: 0.25vw;
+        }           
+
+        .number {
+            top: 9.5vw;
+            width: 7vw;
+            height: 1vw;
+            text-align: center;
+            line-height: 1vw;
+            margin-left: -5vw;
+            transform-origin: 15vw center;
+            position: absolute;
+            transition: translate(50%, -50%);
+        }
+
+        .number>div {
+            font-size: 2vw;
+            transform: rotate(-90deg);
+        }
+
+        #rdata {
+            position: absolute;
+            height: 2vw;
+            width: 5vw;
+            padding: 1vw;
+            top: 11vw;
+            left: 6.5vw;
+            font-size: 1.5vw;
+            text-align: center;
+            z-index: 5;
+        }
+
+        #speedDashboard {
+            display: block;
+            margin-top: calc(10vh + 25vw);
+            padding-left: 45vw;
+            height: 4vw;
+            line-height: 4vw;
+            font-size: 0;
+        }
+
+        .square {
+            float: left;
+            width: 3vw;
+            height: 3vw;
+            padding: 0.5vw;
+            line-height: 3vw;
+            font-size: 1.5vw;
+            font-weight: bolder;
+            text-align: center;
+            list-style: none;
+            background-color: black;
+            margin-left: -0.2vw;
+            border: 0.2vw solid white;
+        }
+
+        #msgBoard {
+            margin: 3vw 15vw 0 15vw;
+            padding: 0 4vw;
+        }
+
+        #powerIndicator {
+            float: right;
+            margin-top: -2vh;
+            margin-right: -5vw;
+            height: 3vw;
+            padding: 1vw;
+            font-size: 1.5vw;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: right;
+        }
+
+        #powerIndicator > .stat {
+            margin-top: 1vh;
+        }
+        
+        #msgBoard > .msg {
+            font-family: 'Times New Roman', Times, serif;
+            display: block;
+            list-style: none;
+            font-size: 2vw;
+            margin-top: 0.5vw;
+        }
+    </style>
+
+    <script>
+        function setLPointerRotate(angle) {
+            let lpointer = document.getElementById("pointer-left");
+            lpointer.style.transform = 'rotate(' + angle + ')';
+        }
+
+        function setRPointerRotate(angle) {
+            let rpointer = document.getElementById("pointer-right");
+            rpointer.style.transform = 'rotate(' + angle + ')';
+        }
+
+        function setLightColor(color) {
+            let light = document.getElementById("light");
+            light.style.backgroundColor = color;
+        }
+
+        setLPointerRotate('-30deg');
+        setRPointerRotate('90deg');
+
+        for (let i = 0; i <= 50; i++) {
+            setTimeout(() => { setLPointerRotate(i * 0.02 - 1/12 + 'turn'); }, 33 * i);
+            setTimeout(() => { setRPointerRotate(i * 0.02 + 1/4 + 'turn'); }, 33 * i);
+        }
+
+        for (let i = 100; i >= 0; i--) {
+            setTimeout(() => { document.getElementById('spd-level').style.height= (100-i) + '%'; }, 10 * i);
+        }
+    </script>
+</body>
+</html>
