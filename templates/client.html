@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ficshl Dashboard</title>
+    <script src="../static/jquery.min.js"></script>
 </head>
 <body>
     <div id="port">Port: <div><input type="text" value="{{ port }}" placeholder="Set port to connect with flask server" /></div></div>
@@ -327,15 +328,29 @@
 
         setLPointerRotate('-30deg');
         setRPointerRotate('90deg');
+    </script>
 
-        for (let i = 0; i <= 50; i++) {
-            setTimeout(() => { setLPointerRotate(i * 0.02 - 1/12 + 'turn'); }, 33 * i);
-            setTimeout(() => { setRPointerRotate(i * 0.02 + 1/4 + 'turn'); }, 33 * i);
-        }
+    <script>
+        var key_code = {40: "ArrowDown",
+                        38 : "ArrowUp"};
+        var cmdList = Array();
+        document.addEventListener("keyup", function(event) {
+            if (event.keyCode in key_code) {
+                cmdList.push(event.keyCode);
+            }
+        });
 
-        for (let i = 100; i >= 0; i--) {
-            setTimeout(() => { document.getElementById('spd-level').style.height= (100-i) + '%'; }, 10 * i);
-        }
+        setInterval(() => {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                let response = xhr.responseText;
+                document.getElementById("msgBoard").children[2 + 1].innerHTML = response;
+            };
+            xhr.open("POST", "/refresh", true);
+            xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xhr.send('cmdList=' + JSON.stringify(cmdList));
+            cmdList = Array();
+        }, interval = 1000);
     </script>
 </body>
 </html>
