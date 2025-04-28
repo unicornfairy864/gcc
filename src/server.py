@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 
 from config import port, global_dir
 
+import json
+
 import os
 
 app = Flask(__name__, template_folder = os.path.join(global_dir, "templates"))
@@ -12,7 +14,26 @@ def index():
 
 @app.route('/refresh', methods=['POST'])
 def refresh():
-    return request.form.get("cmdList")
+    cmdList = request.form.get('cmdList')
 
-if __name__ == '__main__':
-    app.run(debug=True, port = port)
+    light = 'black'
+    leftPointerDeg = -30
+    leftPointer2Deg = 30
+    rightPointerDeg = 90
+    rdata =  600
+    speedDashboard =  list([])
+    msg = list(['msg1', 'msg2', 'msg3'])
+    msg.append(cmdList)
+    data = {
+        'light': light,
+        'leftPointerDeg': leftPointerDeg,
+        'leftPointer2Deg': leftPointer2Deg,
+        'rightPointerDeg': rightPointerDeg,
+        'rdata': rdata,
+        'speedDashboard': speedDashboard,
+        'msg': msg
+    }
+    return json.dumps(data)
+
+# if __name__ == '__main__':
+#     app.run(debug=True, port = port)

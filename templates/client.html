@@ -21,6 +21,7 @@
     <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
     <div id="dashboard-left" class="circle">
         <div class="pointer" id="pointer-left"></div>
+        <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
         <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
         <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
         <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
@@ -54,9 +55,6 @@
             <div class="stat">Hydro</div>
             <div class="stat">Electro</div>
         </div>
-        <li class="msg">jeangunnhildr</li>
-        <li class="msg">Anemo Quality low</li>
-        <li class="msg">消息3</li>
     </ul>
     <style>
         * {
@@ -307,6 +305,7 @@
             list-style: none;
             font-size: 2vw;
             margin-top: 0.5vw;
+            line-break: auto;
         }
     </style>
 
@@ -343,8 +342,12 @@
         setInterval(() => {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                let response = xhr.responseText;
-                document.getElementById("msgBoard").children[2 + 1].innerHTML = response;
+                let response = JSON.parse(xhr.responseText);
+                let msgBoard = document.getElementById("msgBoard");
+                while (msgBoard.lastChild.nodeName == "li") msgBoard.remove(msgBoard.lastChild);
+                for (p in response['msg']) {
+                    msgBoard.appendChild("<li class='msg'>" + p + "</li>")
+                }
             };
             xhr.open("POST", "/refresh", true);
             xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
