@@ -21,12 +21,14 @@
     <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
     <div id="dashboard-left" class="circle">
         <div class="pointer" id="pointer-left"></div>
+        <div id="pointer-left-rad"><div></div></div>
         <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
         <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
         <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
         <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
         <div class="number" style="transform: rotate(150deg);"><div>90</div></div>
         <div class="number" style="transform: rotate(210deg);"><div>120</div></div>
+        <div class="bg"></div>
     </div>
     <div id="dashboard-right" class="circle">
         <div class="pointer" id="pointer-right"></div>
@@ -36,6 +38,7 @@
         <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
         <div class="number" style="transform: rotate(150deg);"><div>90</div></div>
         <div class="number" style="transform: rotate(210deg);"><div>120</div></div>
+        <div class="bg"></div>
     </div>
     <ul id="speedDashboard">
         <li class="square">120</li>
@@ -175,15 +178,16 @@
             z-index: 1;
         }
 
-        .circle::after {
+        .circle > .bg {
             content: '';
             display: block;
+            position: absolute;
             width: calc(19vw);
             height: calc(19vw);
             background-color: black;
             margin: 0.5vw;
             border-radius: 50%;
-            z-index: 2;
+            z-index: 3;
         }
 
         #dashboard-left {
@@ -199,7 +203,7 @@
             height: 6vw;
             color: rgb(255, 255, 255, 0.9);
             background-color: rgba(138, 43, 226, 0.9);
-            z-index: 4;
+            z-index: 5;
             border-radius: 50%;
             padding: 1vw;
             margin: 6vw;
@@ -222,9 +226,33 @@
             left: 0;
             transform-origin: 10vw center;
             transform: rotate(0.10turn);
-            z-index: 3;
+            z-index: 4;
             margin-bottom: 0.25vw;
-        }           
+        }       
+        
+        #pointer-left-rad {
+            transform-origin: 10vw 10vw;
+            /* transform: rotate(-30deg); */
+        }
+
+        #pointer-left-rad > div {
+            position: absolute;
+            overflow: hidden;
+            z-index: 2;
+            width: 10vw;
+            height: 10vw;
+            transform: skew(10deg);
+            transform-origin: 0 10%;
+        }
+        
+        #pointer-left-rad > div::before {
+            content: '';
+            display: block;
+            width: 20vw;
+            height: 20vw;
+            background-color: purple;
+            border-radius: 50%;
+        }
 
         .number {
             top: 9.5vw;
