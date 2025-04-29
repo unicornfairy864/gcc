@@ -6,7 +6,7 @@ import json
 
 import os
 
-app = Flask(__name__, template_folder = os.path.join(global_dir, "templates"))
+app = Flask(__name__, template_folder = os.path.join(global_dir, "static"))
 
 @app.route('/')
 def index():
