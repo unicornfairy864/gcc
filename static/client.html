@@ -6,7 +6,7 @@
     <script src="../static/jquery.min.js"></script>
 </head>
 <body>
-    <div id="test">TEST: <div><input onblur="TEST();" type="text" value="90" placeholder="Type in data to test" /></div></div>
+    <div id="test">TEST: <div><input onchange="TEST();" type="range" value="90" placeholder="Type in data to test" min="-30" max="330" /></div></div>
     <div id="left-board">
         <div id="spd-level"></div>
         <div class="spd">2800</div>
@@ -20,8 +20,9 @@
     </div>
     <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
     <div id="dashboard-left" class="circle">
-        <div class="pointer" id="pointer-left"><div class="triangle"><div></div></div></div>
-        <div class="pointer" id="pointer-left2" style="background-color: orange;"><div class="triangle"><div></div></div></div>
+        <div class="pointer" id="pointer-left"></div>
+        <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
+        <div class="triangle"><div></div></div>
         <div id="pointer-left-rad1"><div><div></div></div></div>
         <div id="pointer-left-rad2"><div><div></div></div></div>
         <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
@@ -219,7 +220,7 @@
 
         .pointer {
             position: absolute;
-            width: 10   w;
+            width: 10vw;
             height: 0.5vw;
             background-color: white;
             border-radius: 30%;
@@ -389,24 +390,23 @@
             deg = document.getElementById("test").lastChild.firstChild.value;
             
             setPointerLeftRad_f9(-30, Number(deg) + 30);
-            // setCurrentSpeedIndicator_f10(deg);
-        }   
+            setCurrentSpeedIndicator_f10(deg);
+        }
         TEST();
 
         function setPointerLeftRad_f9(face, deg) {
-            if (deg >= 0) {
-                let deg1 = 0;
-                let deg2 = 0;
-                if (deg > 180) deg1 = 180;
-                else deg1 = deg;
-                if (deg > 180) deg2 = deg - 180;
-                document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
-                document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
-                document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
-                document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + deg2 + "deg)";
-            } else {
-
-            }
+            let deg1 = 0;
+            let deg2 = 0;
+            if (deg > 180) deg1 = 180;
+            else deg1 = deg;
+            if (deg > 180) deg2 = deg - 180;
+            console.log(deg);
+            console.log(deg1);
+            console.log(deg2);
+            document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
+            document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
+            document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
+            document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + deg2 + "deg)";
         }
 
         function setCurrentSpeedIndicator_f10(angle) {
@@ -426,7 +426,7 @@
             }
         });
 
-        setInterval(() => {
+        /*setInterval(() => {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 let response = JSON.parse(xhr.responseText);
@@ -440,7 +440,7 @@
             xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             xhr.send('cmdList=' + JSON.stringify(cmdList));
             cmdList = Array();
-        }, interval = 1000);
+        }, interval = 1000);*/
     </script>
 </body>
 </html>
