@@ -398,8 +398,11 @@
             let deg1 = 0;
             let deg2 = 0;
             if (deg > 180) deg1 = 180;
-            else deg1 = deg
+            else deg1 = deg;
             if (deg > 180) deg2 = deg - 180;
+            console.log(deg);
+            console.log(deg1);
+            console.log(deg2);
             document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
             document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
             document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
