@@ -10,7 +10,7 @@ app = Flask(__name__, template_folder = os.path.join(global_dir, "static"))
 
 @app.route('/')
 def index():
-    return render_template('client.html', port = port)
+    return render_template('client.html')
 
 @app.route('/refresh', methods=['POST'])
 def refresh():
