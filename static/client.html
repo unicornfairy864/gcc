@@ -335,7 +335,6 @@
             transform-origin: 15vw center;
             position: absolute;
             transition: translate(50%, -50%);
-            z-index: 10;
         }
 
         .number > div {
@@ -429,8 +428,8 @@
                 document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + angle1 + "deg)";
                 document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + angle2 + "deg)";
                 let ld = document.getElementById("dashboard-left");
-                ld.children[0].style.transform = 'rotate(' + deg + 'deg)';
-                ld.children[2].style.transform = 'rotate(' + angle + 'deg)';
+                ld.children[0].style.transform = 'rotate(' + (angle + face) + 'deg)';
+                ld.children[2].style.transform = 'rotate(' + (angle + face) + 'deg)';
             }
         }
     </script>
