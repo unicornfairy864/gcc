@@ -389,7 +389,7 @@
         function TEST() {
             deg = document.getElementById("test").lastChild.firstChild.value;
             
-            setPointerLeftRad_f9(-30, deg + 30);
+            setPointerLeftRad_f9(-30, Number(deg) + 30);
             setCurrentSpeedIndicator_f10(deg);
         }
         TEST();
