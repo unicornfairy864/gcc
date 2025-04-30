@@ -21,10 +21,10 @@
     <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
     <div id="dashboard-left" class="circle">
         <div class="pointer" id="pointer-left"></div>
-        <div class="triangle"></div>
+        <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
+        <div class="triangle"><div></div></div>
         <div id="pointer-left-rad1"><div><div></div></div></div>
         <div id="pointer-left-rad2"><div><div></div></div></div>
-        <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
         <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
         <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
         <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
@@ -234,12 +234,24 @@
 
         .triangle {
             position: absolute;
-            border-top: 1.15vw solid transparent;
-            border-left: 1.15vw solid transparent;
-            border-right: 1.15vw solid transparent;
-            border-bottom: 1.978vw solid red;
-            top: 7.7vw;
-            z-index: 8;
+            width: 2vw;
+            height: 2vw;
+            top: 9vw;
+            transform-origin: 10vw center;
+            z-index: 7;
+        }
+
+        .triangle::after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 0 1vw 1.7325vw 1vw;
+            border-color: transparent transparent darkturquoise transparent;
+            left: -2.2vw;
+            transform: rotate(-30deg);
         }
         
         #pointer-left-rad1 {
@@ -376,38 +388,29 @@
     <script>
         function TEST() {
             deg = document.getElementById("test").lastChild.firstChild.value;
-            setPointerLeftRad_f8(-30, deg)
-        }TEST()
-
-        function setLPointerRotate(angle) {
-            let lpointer = document.getElementById("pointer-left");
-            lpointer.style.transform = 'rotate(' + angle + ')';
+            
+            setPointerLeftRad_f9(-30, deg + 30);
+            setCurrentSpeedIndicator_f10(deg);
         }
+        TEST();
 
-        function setRPointerRotate(angle) {
-            let rpointer = document.getElementById("pointer-right");
-            rpointer.style.transform = 'rotate(' + angle + ')';
-        }
-
-        function setLightColor(color) {
-            let light = document.getElementById("light");
-            light.style.backgroundColor = color;
-        }
-
-        function setPointerLeftRad_f8(face, deg) {
+        function setPointerLeftRad_f9(face, deg) {
             let deg1 = 0;
             let deg2 = 0;
-            if (deg > 180) deg1 = 180
+            if (deg > 180) deg1 = 180;
             else deg1 = deg
             if (deg > 180) deg2 = deg - 180;
-            document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)"
-            document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)"
+            document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
+            document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
             document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
             document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + deg2 + "deg)";
         }
 
-        setLPointerRotate('-30deg');
-        setRPointerRotate('90deg');
+        function setCurrentSpeedIndicator_f10(angle) {
+            let ld = document.getElementById("dashboard-left");
+            ld.children[0].style.transform = 'rotate(' + angle + 'deg)';
+            ld.children[2].style.transform = 'rotate(' + angle + 'deg)';
+        }
     </script>
 
     <script>
