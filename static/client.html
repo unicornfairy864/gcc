@@ -411,25 +411,25 @@
 
     <script>
         function TEST() {
-            deg = document.getElementById("test").lastChild.firstChild.value;
+            angle = document.getElementById("test").lastChild.firstChild.value;
             
-            setPointerLeftRad_f9(-30, Number(deg) + 30);
+            setPointerLeftRad_f9_f10(-30, Number(angle) + 30);
         }
         TEST();
 
-        function setPointerLeftRad_f9_f10(face, deg) {
-            if (deg > 0) {
-                let deg1 = 0;
-                let deg2 = 0;
-                if (deg > 180) deg1 = 180;
-                else deg1 = deg;
-                if (deg > 180) deg2 = deg - 180;
+        function setPointerLeftRad_f9_f10(face, angle) {
+            if (angle > 0) {
+                let angle1 = 0;
+                let angle2 = 0;
+                if (angle > 180) angle1 = 180;
+                else angle1 = angle;
+                if (angle > 180) angle2 = angle - 180;
                 document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
                 document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
-                document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
-                document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + deg2 + "deg)";
+                document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + angle1 + "deg)";
+                document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + angle2 + "deg)";
                 let ld = document.getElementById("dashboard-left");
-                ld.children[0].style.transform = 'rotate(' + angle + 'deg)';
+                ld.children[0].style.transform = 'rotate(' + deg + 'deg)';
                 ld.children[2].style.transform = 'rotate(' + angle + 'deg)';
             }
         }
