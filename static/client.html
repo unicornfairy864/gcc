@@ -20,26 +20,27 @@
     </div>
     <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
     <div id="dashboard-left" class="circle">
-        <div class="pointer" id="pointer-left"></div>
+        <div class="pointer" id="pointer-left1"></div>
         <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
-        <div class="triangle"><div></div></div>
+        <div id="triangle1"><div></div></div> <!-- current -->
+        <div id="triangle2"><div></div></div> <!-- prediction -->
         <div id="pointer-left-rad1"><div><div></div></div></div>
         <div id="pointer-left-rad2"><div><div></div></div></div>
-        <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
-        <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
-        <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
-        <div class="number" style="transform: rotate(150deg);"><div>90</div></div>
-        <div class="number" style="transform: rotate(210deg);"><div>120</div></div>
+        <div class="number" style="transform: rotate(-30deg);"><div style="transform: rotate(30deg);">0</div></div>
+        <div class="number" style="transform: rotate(30deg);"><div style="transform: rotate(-30deg);">30</div></div>
+        <div class="number" style="transform: rotate(90deg);"><div style="transform: rotate(-90deg);">60</div></div>
+        <div class="number" style="transform: rotate(150deg);"><div style="transform: rotate(-150deg);">90</div></div>
+        <div class="number" style="transform: rotate(210deg);"><div style="transform: rotate(-210deg);">120</div></div>
         <div class="bg"></div>
     </div>
     <div id="dashboard-right" class="circle">
         <div class="pointer" id="pointer-right"></div>
         <div id="rdata">600</div>
-        <div class="number" style="transform: rotate(-30deg);"><div>0</div></div>
-        <div class="number" style="transform: rotate(30deg);"><div>30</div></div>
-        <div class="number" style="transform: rotate(90deg);"><div>60</div></div>
-        <div class="number" style="transform: rotate(150deg);"><div>90</div></div>
-        <div class="number" style="transform: rotate(210deg);"><div>120</div></div>
+        <div class="number" style="transform: rotate(-30deg);"><div style="transform: rotate(30deg);">0</div></div>
+        <div class="number" style="transform: rotate(30deg);"><div style="transform: rotate(-30deg);">30</div></div>
+        <div class="number" style="transform: rotate(90deg);"><div style="transform: rotate(-90deg);">60</div></div>
+        <div class="number" style="transform: rotate(150deg);"><div style="transform: rotate(-150deg);">90</div></div>
+        <div class="number" style="transform: rotate(210deg);"><div style="transform: rotate(-210deg);">120</div></div>
         <div class="bg"></div>
     </div>
     <ul id="speedDashboard">
@@ -232,7 +233,7 @@
             margin-bottom: 0.25vw;
         }       
 
-        .triangle {
+        #triangle1 {
             position: absolute;
             width: 2vw;
             height: 2vw;
@@ -241,7 +242,7 @@
             z-index: 7;
         }
 
-        .triangle::after {
+        #triangle1::after {
             content: '';
             display: block;
             position: absolute;
@@ -249,7 +250,29 @@
             height: 0px;
             border-style: solid;
             border-width: 0 1vw 1.7325vw 1vw;
-            border-color: transparent transparent darkturquoise transparent;
+            border-color: transparent transparent orange transparent;
+            left: -2.2vw;
+            transform: rotate(-30deg);
+        }
+
+        #triangle2 {
+            position: absolute;
+            width: 2vw;
+            height: 2vw;
+            top: 9vw;
+            transform-origin: 10vw center;
+            z-index: 7;
+        }
+
+        #triangle2::after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 0 1vw 1.7325vw 1vw;
+            border-color: transparent transparent aqua transparent;
             left: -2.2vw;
             transform: rotate(-30deg);
         }
@@ -312,9 +335,10 @@
             transform-origin: 15vw center;
             position: absolute;
             transition: translate(50%, -50%);
+            z-index: 10;
         }
 
-        .number>div {
+        .number > div {
             font-size: 2vw;
             transform: rotate(-90deg);
         }
@@ -390,29 +414,24 @@
             deg = document.getElementById("test").lastChild.firstChild.value;
             
             setPointerLeftRad_f9(-30, Number(deg) + 30);
-            setCurrentSpeedIndicator_f10(deg);
         }
         TEST();
 
-        function setPointerLeftRad_f9(face, deg) {
-            let deg1 = 0;
-            let deg2 = 0;
-            if (deg > 180) deg1 = 180;
-            else deg1 = deg;
-            if (deg > 180) deg2 = deg - 180;
-            console.log(deg);
-            console.log(deg1);
-            console.log(deg2);
-            document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
-            document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
-            document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
-            document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + deg2 + "deg)";
-        }
-
-        function setCurrentSpeedIndicator_f10(angle) {
-            let ld = document.getElementById("dashboard-left");
-            ld.children[0].style.transform = 'rotate(' + angle + 'deg)';
-            ld.children[2].style.transform = 'rotate(' + angle + 'deg)';
+        function setPointerLeftRad_f9_f10(face, deg) {
+            if (deg > 0) {
+                let deg1 = 0;
+                let deg2 = 0;
+                if (deg > 180) deg1 = 180;
+                else deg1 = deg;
+                if (deg > 180) deg2 = deg - 180;
+                document.getElementById("pointer-left-rad1").style.transform = "rotate(" + face + "deg)";
+                document.getElementById("pointer-left-rad2").style.transform = "rotate(" + face + "deg)";
+                document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + deg1 + "deg)";
+                document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + deg2 + "deg)";
+                let ld = document.getElementById("dashboard-left");
+                ld.children[0].style.transform = 'rotate(' + angle + 'deg)';
+                ld.children[2].style.transform = 'rotate(' + angle + 'deg)';
+            }
         }
     </script>
 
