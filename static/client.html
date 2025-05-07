@@ -6,6 +6,7 @@
 </head>
 <body>
     <div id="test">TEST: <div><input onchange="TEST();" type="range" value="90" placeholder="Type in data to test" /></div></div>
+    <div id="signal"></div>
     <div id="spd-limit">
         <div id="spd-level"><div id="triangle3"></div></div>
         <div class="spd">2800</div>
@@ -17,7 +18,7 @@
         <div class="spd">400</div>
         <div class="spd">0</div>
     </div>
-    <div id="light" onclick="{let light = document.getElementById('light'); if (light.style.backgroundColor == 'green') setLightColor('red'); else setLightColor('green');}"></div>
+    <div id="light"></div>
     <div id="dashboard-left" class="circle">
         <div class="pointer" id="pointer-left1"></div>
         <div class="pointer" id="pointer-left2" style="background-color: orange;"></div>
@@ -121,6 +122,14 @@
             border-radius: 0.3vw;
             border-bottom: #3f3f3f 0.15vw solid;
             z-index: 0;
+        }
+
+        #signal {
+            position: absolute;
+            width: 10vw;
+            top: 10vh;
+            height: 24vw;
+            left: 8vw;
         }
 
         #spd-limit {
