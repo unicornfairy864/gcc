@@ -411,7 +411,7 @@
         function TEST() {
             angle = document.getElementById("test").lastChild.firstChild.value;
             
-            setPointerLeft_f9_f10_f11(90, Number(angle) + 30);
+            setPointerLeft_f9_f10_f11(90, Number(angle));
         }
         TEST();
 
@@ -439,13 +439,13 @@
                 else angle1 = angle;
                 if (angle > 180) angle2 = angle - 180;
                 document.getElementById("pointer-left2").style.transform = "rotate(" + phase + "deg)";
-                document.getElementById("pointer-left-rad1").style.transform = "rotate(" + phase - angle1 + "deg)";
-                document.getElementById("pointer-left-rad2").style.transform = "rotate(" + phase - angle2 + "deg)";
+                document.getElementById("pointer-left-rad1").style.transform = "rotate(" + (phase - angle1) + "deg)";
+                document.getElementById("pointer-left-rad2").style.transform = "rotate(" + (phase - angle2) + "deg)";
                 document.getElementById("pointer-left-rad1").firstChild.firstChild.style.transform = "rotate(" + angle1 + "deg)";
                 document.getElementById("pointer-left-rad2").firstChild.firstChild.style.transform = "rotate(" + angle2 + "deg)";
                 let ld = document.getElementById("dashboard-left");
-                ld.children[0].style.transform = 'rotate(' + (angle + phase) + 'deg)';
-                ld.children[2].style.transform = 'rotate(' + (angle + phase) + 'deg)';
+                ld.children[0].style.transform = 'rotate(' + (-angle + phase) + 'deg)';
+                ld.children[2].style.transform = 'rotate(' + (-angle + phase) + 'deg)';
                 ld.children[3].style.transform = 'rotate(' + (phase) + 'deg)';
             }
         }
@@ -462,6 +462,8 @@
         });
 
         setInterval(() => {
+            let __TEST__ = true;
+            if (__TEST__) return;
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 let response = JSON.parse(xhr.responseText);
