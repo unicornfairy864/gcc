@@ -443,21 +443,28 @@
             }
         });
 
-        /*setInterval(() => {
+        setInterval(() => {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 let response = JSON.parse(xhr.responseText);
+                // update msgBoard
                 let msgBoard = document.getElementById("msgBoard");
-                while (msgBoard.lastChild.nodeName == "li") msgBoard.remove(msgBoard.lastChild);
-                for (p in response['msg']) {
-                    msgBoard.appendChild("<li class='msg'>" + p + "</li>")
+                let fragMsg = document.createDocumentFragment();
+                for (i in response.msg) {
+                    let li = document.createElement("li");
+                    li.className = "msg";
+                    li.innerText = response.msg[i];
+                    fragMsg.appendChild(li);
                 }
+                msgBoard.innerHTML = ""; 
+                msgBoard.appendChild(fragMsg);
+                alert(xhr.responseText);
             };
             xhr.open("POST", "/refresh", true);
             xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             xhr.send('cmdList=' + JSON.stringify(cmdList));
             cmdList = Array();
-        }, interval = 1000);*/
+        }, interval = 500);
     </script>
 </body>
 </html>
