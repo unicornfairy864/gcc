@@ -5,9 +5,9 @@
     <title>Ficshl Dashboard</title>
 </head>
 <body>
-    <div id="test">TEST: <div><input onchange="TEST();" type="text" value="90" placeholder="Type in data to test" /></div></div>
-    <div id="left-board">
-        <div id="spd-level"></div>
+    <div id="test">TEST: <div><input onchange="TEST();" type="range" value="90" placeholder="Type in data to test" /></div></div>
+    <div id="spd-limit">
+        <div id="spd-level"><div id="triangle3"></div></div>
         <div class="spd">2800</div>
         <div class="spd">2400</div>
         <div class="spd">2000</div>
@@ -123,24 +123,24 @@
             z-index: 0;
         }
 
-        #left-board {
+        #spd-limit {
             position: absolute;
             width: 6vw;
             top: 10vh;
+            height: 24vw;
             padding-left: 5vw;
-            left: 18vw;
+            left: 24vw;
         }
 
-        #left-board > #spd-level {
+        #spd-limit > #spd-level {
             position: absolute;
             display: inline-block;
             content: '';
             border-left: 0.6vw black solid;
-            height: 70%;
             margin-left: -2vw;
         }
 
-        #left-board::before {
+        #spd-limit::before {
             position: absolute;
             display: inline-block;
             content: '';
@@ -149,11 +149,33 @@
             margin-left: -2vw;
         }
 
-        #left-board > .spd {
+        #spd-limit > .spd {
             width: auto;
             font-size: 2.5vw;
             font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             line-height: 3vw;
+        }     
+
+        #triangle3 {
+            position: absolute;
+            width: 2vw;
+            height: 2vw;
+            transform-origin: 10vw center;
+            z-index: 7;
+            margin-left: -1vw;
+        }
+
+        #triangle3::after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 0 1vw 1.7325vw 1vw;
+            border-color: transparent transparent yellow transparent;
+            left: -2vw;
+            transform: rotate(-30deg);
         }
 
 
@@ -409,11 +431,19 @@
 
     <script>
         function TEST() {
-            angle = document.getElementById("test").lastChild.firstChild.value;
+            v = document.getElementById("test").lastChild.firstChild.value;
             
-            setPointerLeft_f9_f10_f11(90, Number(angle));
+            setSpdLimit_f5_f6(v);
         }
         TEST();
+
+        function setSpdLimit_f5_f6(spd) { // 0-100%
+            spd = 100 - spd;
+            let spdLevel = document.getElementById("spd-level");
+            spdLevel.style.height = spd + "%";
+            let trg3 = document.getElementById("triangle3");
+            trg3.style.top = (spd / 4.0 - 1.23) + "vw";
+        }
 
         function setPointerLeft_f9_f10_f11(phase, angle) {
             if (angle > 0) {
