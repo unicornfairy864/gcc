@@ -502,11 +502,11 @@
         });
 
         setInterval(() => {
-            let __TEST__ = true;
+            let __TEST__ = false;
             if (__TEST__) return;
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                let response = JSON.parse(xhr.responseText);
+                let response = JSON.stringify(xhr.responseText);
                 // update msgBoard
                 let msgBoard = document.getElementById("msgBoard");
                 let fragMsg = document.createDocumentFragment();
@@ -519,7 +519,8 @@
                 msgBoard.innerHTML = ""; 
                 msgBoard.appendChild(fragMsg);
             };
-            xhr.open("POST", "/refresh", true);
+            // xhr.open("POST", "/refresh", true);
+            xhr.open("POST", "http://127.0.0.1/refresh", true);
             xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             xhr.send('cmdList=' + JSON.stringify(cmdList));
             cmdList = Array();

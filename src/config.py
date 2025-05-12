@@ -1,5 +1,5 @@
 import os
 
-port = 5034
+port = 80
 
 global_dir = os.path.join(os.path.dirname(__file__), '..')  # development path
