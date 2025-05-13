@@ -9,6 +9,7 @@ pip config set global.extra-index-url "https://mirrors.tuna.tsinghua.edu.cn/pypi
 
 pip install pywebview
 pip install flask
+pip install flask_cors
 ```
 
 ## Introduction

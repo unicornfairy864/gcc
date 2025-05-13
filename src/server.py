@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_cors import CORS
 
 from config import port, global_dir
 
@@ -7,6 +8,7 @@ import json
 import os
 
 app = Flask(__name__, template_folder = os.path.join(global_dir, "static"))
+CORS(app)
 
 @app.route('/')
 def index():
@@ -21,6 +23,8 @@ rdata =  600
 speedDashboard =  list([])
 msg = list(['msg1', 'msg2', 'msg3'])
 
+global data
+
 @app.route('/refresh', methods=['POST'])
 def refresh():
     cmdList = request.form.get('cmdList')
@@ -31,10 +35,10 @@ def refresh():
         'rightPointerDeg': rightPointerDeg,
         'rdata': rdata,
         'speedDashboard': speedDashboard,
-        'msg': msg
+        'msg': list(msg)
     }
     data['msg'].append(cmdList)
-    return json.dumps(data)
+    return json.dumps(json.loads(json.dumps(data, ensure_ascii=False)))
 
 if __name__ == '__main__':
     app.run(debug=True, port = port)
