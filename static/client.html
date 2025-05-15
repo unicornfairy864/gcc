@@ -56,12 +56,12 @@
         <li class="square"></li>
     </ul>
     <ul id="msgBoard">
-        <div id="powerIndicator">
-            <div class="stat">Anemo</div>
-            <div class="stat">Hydro</div>
-            <div class="stat">Electro</div>
-        </div>
     </ul>
+    <div id="powerIndicator">
+        <div class="stat">Anemo</div>
+        <div class="stat">Hydro</div>
+        <div class="stat">Electro</div>
+    </div>
     <style>
         * {
             margin: 0;
@@ -415,7 +415,8 @@
         }
 
         #powerIndicator {
-            float: right;
+            position: absolute;
+            right: 13vw;
             margin-top: -2vh;
             margin-right: -5vw;
             height: 3vw;
@@ -506,12 +507,12 @@
             if (__TEST__) return;
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                let response = JSON.stringify(xhr.responseText);
-                console.log(response);
+                let response = JSON.parse(xhr.responseText);
                 // update msgBoard
                 let msgBoard = document.getElementById("msgBoard");
                 let fragMsg = document.createDocumentFragment();
-                for (i in response.msg) {
+                console.log(xhr.responseText);
+                for (i in response.msg.size) {
                     let li = document.createElement("li");
                     li.className = "msg";
                     li.innerText = response.msg[i];
@@ -520,8 +521,8 @@
                 msgBoard.innerHTML = ""; 
                 msgBoard.appendChild(fragMsg);
             };
-            xhr.open("POST", "/refresh", true);
-            // xhr.open("POST", "http://127.0.0.1/refresh", true);
+            // xhr.open("POST", "/refresh", true);
+            xhr.open("POST", "http://127.0.0.1/refresh", true);
             xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             xhr.send('cmdList=' + JSON.stringify(cmdList));
             cmdList = Array();
